@@ -1,103 +1,67 @@
-<?php
-require_once('./helper/db-connect.php');
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="style.css">
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet" />
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+            <title>Connexion</title>
+        </head>
+        <body>
+        
+        <div class="cont">
+             <?php 
+                if(isset($_GET['login_err']))
+                {
+                    $err = htmlspecialchars($_GET['login_err']);
 
-if (isset($_GET['target'])) {
-    if ($_GET['target'] === 'post') {
-        switch ($_GET['action']) {
-            case 'all':
-                require('./functions/posts/getAllpost.php');
-                break;
-            case 'single':
-                require('./views/singlepost.php');
-                break;
-            case 'delete':
-                require('./functions/posts/deletePost.php');
-                break;
-            case 'search':
-                require('./views/search.php');
-                break;
-            case 'create':
-                if (!empty($_POST)) {
-                    require('./functions/posts/createPost.php');
-                } else {
-                    require('./views/forms/createArticles.php');
-                }
-                break;
-            case 'update':
-                if (!empty($_POST)) {
-                    require('./functions/posts/updatePost.php'); 
-                } else {
-                    require('./views/forms/updateArticle.php'); 
-                }
-                break;
-            default:
-                break;
-        }
-    } else if ($_GET['target'] === 'admin') {
-        switch ($_GET['action']) {
-            case 'home':
-                require('./views/admin/adminHome.php');
-                break;
-            case 'auth':
-                if (!empty($_POST)) {
-                    require('./functions/admin/admin.php');
-                } else {
-                    require('./views/signInAdmin.php');
-                }
-                break;
-            case 'logout':
-                require('./functions/admin/logout.php');
-                break;
-            case 'unCheckCommentaries':
-                require('./views/admin/adminComments.php');
-                break;
-            default:
-                break;
-        }
-    } else if ($_GET['target'] === "categories") {
-        switch ($_GET['action']) {
-            case 'all':
-                require('./views/archive.php');
-                break;
+                    switch($err)
+                    {
+                        case 'password':
+                        ?>
+                            <div class="alert alert-danger">
+                                <strong>Erreur</strong> mot de passe incorrect
+                            </div>
+                        <?php
+                        break;
 
-            default:
-                break;
-        }
-    } else if ($_GET['target'] === 'commentaries') {
-        switch ($_GET['action']) {
-            case 'create':
-                if (!empty($_POST)) {
-                    require('./functions/comments/createComm.php');
-                } else {
-                    require('./views/singlepost.php');
+                        case 'email':
+                        ?>
+                            <div class="alert alert-danger">
+                                <strong>Erreur</strong> email incorrect
+                            </div>
+                        <?php
+                        break;
+
+                        case 'already':
+                        ?>
+                            <div class="alert alert-danger">
+                                <strong>Erreur</strong> compte non existant
+                            </div>
+                        <?php
+                        break;
+                    }
                 }
-                break;
-            case 'update':
-                require('./functions/comments/updateComm.php');
-                break;
-            case 'delete':
-                require('./functions/comments/deleteComm.php');
-                break;
-            default:
-                break;
-        }
-    } else if ($_GET['target'] === 'likes') {
-        switch ($_GET['action']) {
-            case 'create':
-                require('./functions/mentions/addLikes.php');
-                break;
-            default:               
-                break;
-        }
-    } else if ($_GET['target'] === '404') {
-        switch ($_GET['action']) {
-            case 'notFound':
-                require('./views/404.php');
-                break;
-            default:
-                break;
-        }
-    }
-} else {
-    require('./views/accueil.php');
-}
+                ?> 
+            
+            <form action="connexion.php" method="post">
+                <h2 class="text-center">Connexion</h2>       
+                <div class="form-group">
+                    <input type="email" name="email"  placeholder="Email" required="required" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password"  placeholder="Mot de passe" required="required" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Connexion</button>
+                </div>   
+                <div>
+                    <a href="inscription.php">Inscription</a>
+                </div> 
+            </form>
+            
+        </div>
+        
+        </body>
+</html>
